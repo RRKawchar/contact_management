@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 class KTextField extends StatelessWidget {
   final String? hintText;
   final VoidCallback? onTap;
-  final TextEditingController? controller;
+  final TextEditingController controller;
   final Function(String)? onChanged;
   final bool isTitleNeed;
   final String? titleText;
@@ -13,7 +13,7 @@ class KTextField extends StatelessWidget {
   const KTextField({
     super.key,
     this.hintText,
-    this.controller,
+    required this.controller,
     this.onTap,
     this.onChanged,
     this.isTitleNeed = false,
@@ -40,7 +40,7 @@ class KTextField extends StatelessWidget {
           decoration: InputDecoration(
             contentPadding:const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
             isDense: true,
-            hintText: hintText ?? "",
+            hintText: hintText,
             hintStyle: GoogleFonts.poppins(color: kGrey, fontSize: 16),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),

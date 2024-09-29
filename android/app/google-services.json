@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "24090663699",
+    "project_id": "contact-management-app-cce62",
+    "storage_bucket": "contact-management-app-cce62.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24090663699:android:7b88f749ee38fe9c1858e6",
+        "android_client_info": {
+          "package_name": "com.owlmind.ctm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnoTzOoAqHCGE2ezXyNzvYEFUwLqiaXCA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

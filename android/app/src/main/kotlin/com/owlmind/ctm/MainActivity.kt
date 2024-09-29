@@ -1,4 +1,4 @@
-package com.example.contact_management
+package com.owlmind.ctm
 
 import io.flutter.embedding.android.FlutterActivity
 

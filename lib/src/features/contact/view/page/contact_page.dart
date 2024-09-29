@@ -10,6 +10,7 @@ class ContactPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _controller = TextEditingController();
     return GestureDetector(
       onTap: context.unFocus,
       child: Scaffold(
@@ -25,8 +26,9 @@ class ContactPage extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Expanded(
+                   Expanded(
                       child: KTextField(
+                        controller: _controller,
                     hintText: "Search Contacts",
                   )),
                   const SizedBox(width: 12),

@@ -3,21 +3,18 @@ import 'package:contact_management/src/core/utils/color.dart';
 import 'package:contact_management/src/core/widgets/k_primary_button.dart';
 import 'package:contact_management/src/core/widgets/k_text_field.dart';
 import 'package:contact_management/src/features/contact/controller/contact_controller.dart';
+import 'package:contact_management/src/features/contact/view/widgets/drop_down_form_field.dart';
+import 'package:contact_management/src/features/contact/view/widgets/social_media_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AddContactPage extends StatelessWidget {
   const AddContactPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ContactController contactController=Get.put(ContactController());
+    ContactController contactController = Get.put(ContactController());
 
-    final TextEditingController platform=TextEditingController();
-    final TextEditingController urlController=TextEditingController();
-
-    RxBool isAddSocial = false.obs;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -30,17 +27,20 @@ class AddContactPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const KTextField(
+              KTextField(
+                controller: contactController.nameController,
                 titleText: "Name",
                 isTitleNeed: true,
               ),
               const SizedBox(height: 20),
-              const KTextField(
+              KTextField(
+                controller: contactController.emailController,
                 titleText: "Email",
                 isTitleNeed: true,
               ),
               const SizedBox(height: 20),
-              const KTextField(
+              KTextField(
+                controller: contactController.phoneController,
                 titleText: "Phone",
                 isTitleNeed: true,
               ),
@@ -53,59 +53,16 @@ class AddContactPage extends StatelessWidget {
                   ),
                 ],
               ),
+              const SocialMediaCard(),
               Obx(
-                () => isAddSocial.value?Container(
-                  padding: EdgeInsets.only(left: 10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border(
-                        left: BorderSide(
-                          color: kGrey.withOpacity(0.2),
-                          width: 1.7,
-                        ),
-                        right: BorderSide(
-                          color: kGrey.withOpacity(0.2),
-                          width: 1.7,
-                        ),
-                        bottom: BorderSide(
-                          color: kGrey.withOpacity(0.2),
-                          width: 1.7,
-                        ),
-                        top: BorderSide(
-                          color: kGrey.withOpacity(0.2),
-                          width: 1.7,
-                        ),
-                      )),
-                  child: Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(Icons.facebook,size: 40,color: Colors.black54,),
-                       SizedBox(width: 10),
-                       Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         children: [
-                           Text("https://facebook.com") ,
-                           Text("Facebook") ,
-                         ],
-                       ),
-                       Spacer(),
-                      IconButton(onPressed: (){
-                      }, icon: Icon(Icons.edit,color: Colors.black45,)),
-                      IconButton(onPressed: (){
-                        isAddSocial.value=false;
-                      }, icon: Icon(Icons.close,color: Colors.black45,)),
-                    ],
-                  ),
-                ):Container(),
+                () => SizedBox(
+                  height: contactController.socialMediaList.isNotEmpty ? 10 : 0,
+                ),
               ),
-             Obx(()=> SizedBox(height:isAddSocial.value? 10:0),),
-               KTextField(
-                controller: platform,
-                hintText: "Platform",
-              ),
+              const DropDownFormField(),
               const SizedBox(height: 10),
-               KTextField(
-                controller: urlController,
+              KTextField(
+                controller: contactController.urlController,
                 hintText: "URL",
               ),
               const SizedBox(height: 20),
@@ -113,13 +70,17 @@ class AddContactPage extends StatelessWidget {
                 buttonText: 'Add',
                 fontSize: 20,
                 onTap: () {
-                  contactController.addSocial(platform: platform.text, url: urlController.text);
-                  isAddSocial.value=true;
+                  contactController.addSocial(
+                    platform: contactController.selectedPlatform.value,
+                    url: contactController.urlController.text,
+                  );
+
                 },
               ),
               const SizedBox(height: 20),
-              const KTextField(
+              KTextField(
                 isTitleNeed: true,
+                controller: contactController.communityController,
                 titleText: "Communities",
                 hintText: "Community",
               ),
@@ -156,15 +117,21 @@ class AddContactPage extends StatelessWidget {
                         width: 1.7,
                       ),
                     )),
-                child: const Text("Cancel",
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                child: const Text(
+                  "Cancel",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
               const SizedBox(height: 10),
               KPrimaryButton(
                 buttonText: 'Add Contact',
                 fontSize: 20,
-                onTap: () {},
+                onTap: () {
+                  contactController.saveDataToFirebase();
+                },
               ),
             ],
           ),

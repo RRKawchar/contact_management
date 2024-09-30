@@ -1,4 +1,4 @@
-import 'social_model.dart';
+import 'package:contact_management/src/features/contact/model/social_model.dart';
 
 class ContactModel {
   String? id;
@@ -24,11 +24,15 @@ class ContactModel {
     phone = json['phone'];
 
     if (json['socialMedia'] != null) {
-      socialMedia = (json['socialMedia'] as List)
-          .map((item) => SocialModel.fromJson(item))
-          .toList();
-    } else {
-      socialMedia = null;
+      // Check if socialMedia is already a list of SocialModel objects
+      socialMedia = (json['socialMedia'] as List).map((item) {
+        // If item is already a SocialModel, return it, otherwise convert from JSON
+        if (item is SocialModel) {
+          return item;
+        } else {
+          return SocialModel.fromJson(item as Map<String, dynamic>);
+        }
+      }).toList();
     }
 
     community = json['community'];
@@ -41,7 +45,7 @@ class ContactModel {
     data['email'] = email;
     data['phone'] = phone;
     if (socialMedia != null) {
-      data['socialMedia'] = socialMedia?.map((item) => item.toJson()).toList();
+      data['socialMedia'] = socialMedia!.map((item) => item.toJson()).toList();
     } else {
       data['socialMedia'] = null;
     }

@@ -6,6 +6,7 @@ import 'package:contact_management/src/features/contact/view/page/contact_page.d
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,9 @@ Future<void> main() async{
     )
   ):
   await Firebase.initializeApp();
+
+  await Hive.initFlutter();
+  await Hive.openBox('contactsBox');
 
   runApp(const MyApp());
 }

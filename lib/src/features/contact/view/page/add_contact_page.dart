@@ -74,7 +74,6 @@ class AddContactPage extends StatelessWidget {
                     platform: contactController.selectedPlatform.value,
                     url: contactController.urlController.text,
                   );
-
                 },
               ),
               const SizedBox(height: 20),
@@ -126,13 +125,19 @@ class AddContactPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              KPrimaryButton(
-                buttonText: 'Add Contact',
-                fontSize: 20,
-                onTap: () {
-                  contactController.saveDataToFirebase();
-                },
-              ),
+              Obx(
+                () => contactController.isLoading.value
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : KPrimaryButton(
+                        buttonText: 'Add Contact',
+                        fontSize: 20,
+                        onTap: () {
+                          contactController.saveDataToFirebase();
+                        },
+                      ),
+              )
             ],
           ),
         ),
